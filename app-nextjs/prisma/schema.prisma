@@ -1,0 +1,50 @@
+// schema.prisma
+
+// Define tus modelos de base de datos aquí
+
+// Ejemplo de modelo de usuario
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Ejemplo de modelo de horario de estudio
+model StudySchedule {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  day       String
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Ejemplo de modelo de progreso de estudio
+model StudyProgress {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  subject   String
+  hours     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Define tus relaciones entre modelos aquí
+
+// Ejemplo de relación uno a muchos entre User y StudySchedule
+model User {
+  // ...
+  studySchedules StudySchedule[]
+}
+
+// Ejemplo de relación uno a muchos entre User y StudyProgress
+model User {
+  // ...
+  studyProgresses StudyProgress[]
+}
